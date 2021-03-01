@@ -3,7 +3,7 @@
 if [[ -n "${BUILDKITE_PLUGIN_S3_CACHE_AWS_PROFILE:-}" ]]; then
   aws_cli_args=(--profile "$BUILDKITE_PLUGIN_S3_CACHE_AWS_PROFILE")
 else
-  aws_cli_args=()
+  aws_cli_args=("$@")
 fi
 
 # returns a JSON object with plugin configuration 
