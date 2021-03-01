@@ -9,9 +9,9 @@ fi
 # returns a JSON object with plugin configuration 
 function getPluginConfig {
   local config
-  config=$(echo "$BUILDKITE_PLUGINS" | jq '. | map(to_entries) | flatten | map(select(.key | match("peakon/s3-cache";"i"))) | map(.value)')
+  config=$(echo "$BUILDKITE_PLUGINS" | jq '. | map(to_entries) | flatten | map(select(.key | match("toastercup/s3-cache";"i"))) | map(.value)')
   if [[ "$config" == "null" ]]; then
-      echo "peakon/s3-cache plugin is misconfigured"
+      echo "toastercup/s3-cache plugin is misconfigured"
       exit 1
   else 
     echo "$config"
