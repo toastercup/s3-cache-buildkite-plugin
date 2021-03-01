@@ -83,7 +83,7 @@ function s3Exists {
   local s3Key
   s3Key=$(s3ObjectKey "$1")
   local s3KeyExists="true"
-  aws "${aws_cli_args[@]}" s3api head-object --bucket "$BUILDKITE_PLUGIN_S3_CACHE_BUCKET_NAME" --key "$s3Key" &>/dev/null || s3KeyExists=false
+  aws "${aws_cli_args[@]+"${aws_cli_args[@]}"}" s3api head-object --bucket "$BUILDKITE_PLUGIN_S3_CACHE_BUCKET_NAME" --key "$s3Key" &>/dev/null || s3KeyExists=false
   echo "$s3KeyExists"
 }
 
@@ -97,7 +97,7 @@ function s3Upload {
   localPaths=($2)
   set +e
   # shellcheck disable=SC2068
-  if ! (tar --ignore-failed-read -cz ${localPaths[@]} | aws "${aws_cli_args[@]}" s3 cp - "$s3_path"); then
+  if ! (tar --ignore-failed-read -cz ${localPaths[@]} | aws "${aws_cli_args[@]+"${aws_cli_args[@]}"}" s3 cp - "$s3_path"); then
     echo "false"
   else
     echo "true"
@@ -110,7 +110,7 @@ function s3Restore {
   local s3_path
   s3_path=$(s3Path "$1")
   set +e
-  if ! aws "${aws_cli_args[@]}" s3 cp "$s3_path" - | tar -xz > /dev/null; then
+  if ! aws "${aws_cli_args[@]+"${aws_cli_args[@]}"}" s3 cp "$s3_path" - | tar -xz > /dev/null; then
     echo "false"
   else
     echo "true"
